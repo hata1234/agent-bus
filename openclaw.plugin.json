@@ -1,0 +1,58 @@
+{
+  "id": "agent-bus",
+  "name": "Agent Bus",
+  "version": "0.1.0",
+  "kind": "tool",
+  "description": "Local SQLite event bus for agent-to-main notifications and targeted session wakeups.",
+  "activation": { "onStartup": true },
+  "enabledByDefault": false,
+  "contracts": {
+    "tools": [
+      "agent_bus_emit"
+    ]
+  },
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "enabled": { "type": "boolean", "default": true },
+      "dbPath": {
+        "type": "string",
+        "default": "~/.openclaw/agent-bus/events.sqlite"
+      },
+      "routePath": {
+        "type": "string",
+        "default": "/plugins/agent-bus"
+      },
+      "defaultTargetSessionKey": {
+        "type": "string",
+        "default": "agent:main:telegram:direct:USER_ID"
+      },
+      "defaultTargetAgentId": {
+        "type": "string",
+        "default": "main"
+      },
+      "injectLimit": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 20,
+        "default": 5
+      },
+      "taskRoutesEnabled": {
+        "type": "boolean",
+        "default": false,
+        "description": "Enable HTTP task-control routes. Keep false unless a reviewed owner-only activation gate has passed."
+      },
+      "specialistTaskWritesEnabled": {
+        "type": "boolean",
+        "default": false,
+        "description": "Enable specialist claim/heartbeat/artifact/result HTTP writes. Requires separate review and must stay false for owner-only route activation."
+      },
+      "ownerTaskRouteKey": {
+        "type": "string",
+        "default": "",
+        "description": "Local owner/control-plane key required by x-agent-bus-owner-key for owner-only task mutations when task routes are enabled."
+      }
+    }
+  }
+}
